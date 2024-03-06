@@ -6,10 +6,6 @@ from pydantic.v1.dataclasses import dataclass
 
 from semantic_router.encoders import (
     BaseEncoder,
-    CohereEncoder,
-    FastEmbedEncoder,
-    MistralEncoder,
-    OpenAIEncoder,
 )
 
 
@@ -40,12 +36,20 @@ class Encoder:
         if self.type == EncoderType.HUGGINGFACE:
             raise NotImplementedError
         elif self.type == EncoderType.FASTEMBED:
+            from semantic_router.encoders.fastembed import FastEmbedEncoder
+
             self.model = FastEmbedEncoder(name=name)
         elif self.type == EncoderType.OPENAI:
+            from semantic_router.encoders.openai import OpenAIEncoder
+
             self.model = OpenAIEncoder(name=name)
         elif self.type == EncoderType.COHERE:
+            from semantic_router.encoders.cohere import CohereEncoder
+
             self.model = CohereEncoder(name=name)
         elif self.type == EncoderType.MISTRAL:
+            from semantic_router.encoders.mistral import MistralEncoder
+
             self.model = MistralEncoder(name=name)
         else:
             raise ValueError
